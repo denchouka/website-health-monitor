@@ -7,3 +7,5 @@ server:
 dingtalk:
   access_token: ${ACCESS_TOKEN}
   secret: ${SECRET}
+  website_url: ${WEBSITE_URL}
+  website_title: ${WEBSITE_TITLE}

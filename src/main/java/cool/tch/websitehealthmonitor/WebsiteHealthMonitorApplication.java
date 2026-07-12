@@ -37,15 +37,10 @@ public class WebsiteHealthMonitorApplication {
                         @RequestParam(required = false) Map<String, String> params, @RequestBody(required = true) String body) throws JsonProcessingException {
 
         System.out.println("我要执行函数啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦");
-        System.out.println("headers = " + headers);
-        System.out.println("params = " + params);
         System.out.println("body = " + body);
 
         TriggerEventBody triggerEventBody = new ObjectMapper().readValue(body, TriggerEventBody.class);
-        System.out.println("triggerEventBody = " + triggerEventBody.toString());
-
         String payload = triggerEventBody.getPayload();
-        System.out.println("payload = " + payload);
 
         if (DAILY_HEALTH_CHECK.equals(payload)) {
             taskService.dailyHealthCheck();
