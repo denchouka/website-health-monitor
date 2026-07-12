@@ -1,5 +1,10 @@
 package cool.tch.websitehealthmonitor;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import cool.tch.websitehealthmonitor.entity.TriggerEventBody;
+import cool.tch.websitehealthmonitor.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +14,9 @@ import java.util.Map;
 @RestController
 @SpringBootApplication
 public class WebsiteHealthMonitorApplication {
+
+    @Autowired
+    private TaskService taskService;
 
     /**
      * 每日存活检查
@@ -20,34 +28,33 @@ public class WebsiteHealthMonitorApplication {
      */
     private static final String PERIODIC_HEALTH_CHECK = "periodic_health_check";
 
-    /**
-     * 触发消息将会作为 event 中的参数 payload
-     */
-    private static final String PARAM_KEY_PAYLOAD = "payload";
-
     public static void main(String[] args) {
         SpringApplication.run(WebsiteHealthMonitorApplication.class, args);
     }
 
     @RequestMapping("/*")
     public String hello(@RequestHeader Map<String, String> headers,
-                        @RequestParam(required = false) Map<String, String> params, @RequestBody(required = false) String body) {
+                        @RequestParam(required = false) Map<String, String> params, @RequestBody(required = true) String body) throws JsonProcessingException {
 
+        System.out.println("我要执行函数啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦");
+        System.out.println("headers = " + headers);
+        System.out.println("params = " + params);
+        System.out.println("body = " + body);
 
-        if (params != null && params.containsKey(PARAM_KEY_PAYLOAD)) {
+        TriggerEventBody triggerEventBody = new ObjectMapper().readValue(body, TriggerEventBody.class);
+        System.out.println("triggerEventBody = " + triggerEventBody.toString());
 
-            String payload = params.get(PARAM_KEY_PAYLOAD);
-            if (DAILY_HEALTH_CHECK.equals(payload)) {
-                // do something
-                return "触发 每日存活检查";
-            } else if (PERIODIC_HEALTH_CHECK.equals(payload)) {
-                // do something
-                return "触发 周期性健康检查";
-            } else {
-                return "触发消息的自定义参数中【payload】不合法";
-            }
+        String payload = triggerEventBody.getPayload();
+        System.out.println("payload = " + payload);
+
+        if (DAILY_HEALTH_CHECK.equals(payload)) {
+            taskService.dailyHealthCheck();
+            return "触发 每日存活检查";
+        } else if (PERIODIC_HEALTH_CHECK.equals(payload)) {
+            taskService.periodicHealthCheck();
+            return "触发 周期性健康检查";
         } else {
-            return "触发消息的自定义参数中【payload】未指定";
+            return "触发消息的自定义参数中【payload】不合法";
         }
     }
 
