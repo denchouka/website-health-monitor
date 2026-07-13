@@ -32,7 +32,7 @@
 
 ## Issues & 建议
 
-如果在使用过程中遇到问题，或有新的功能建议，欢迎提交 **Issue**。
+如果在使用过程中遇到问题，或有新的功能建议，欢迎提交 [Issue](https://github.com/denchouka/website-health-monitor/issues)。
 
 如果这个项目对你有所帮助，也欢迎点一个 ⭐ Star 支持一下！
 
