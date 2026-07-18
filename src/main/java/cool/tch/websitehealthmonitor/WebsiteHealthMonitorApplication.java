@@ -33,23 +33,16 @@ public class WebsiteHealthMonitorApplication {
     }
 
     @RequestMapping("/*")
-    public String hello(@RequestHeader Map<String, String> headers,
+    public void hello(@RequestHeader Map<String, String> headers,
                         @RequestParam(required = false) Map<String, String> params, @RequestBody(required = true) String body) throws JsonProcessingException {
-
-        System.out.println("我要执行函数啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦");
-        System.out.println("body = " + body);
 
         TriggerEventBody triggerEventBody = new ObjectMapper().readValue(body, TriggerEventBody.class);
         String payload = triggerEventBody.getPayload();
 
         if (DAILY_HEALTH_CHECK.equals(payload)) {
             taskService.dailyHealthCheck();
-            return "触发 每日存活检查";
         } else if (PERIODIC_HEALTH_CHECK.equals(payload)) {
             taskService.periodicHealthCheck();
-            return "触发 周期性健康检查";
-        } else {
-            return "触发消息的自定义参数中【payload】不合法";
         }
     }
 
