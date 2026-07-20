@@ -65,34 +65,37 @@ public class TaskService {
      */
     public void periodicHealthCheck() {
         String currentTime = LocalDateTime.now().format(FORMATTER);
+        String response = null;
         try {
             int responseStatus = websiteCheck();
             if (responseStatus == HttpStatus.OK.value()) {
                 return;
             }
 
-            String title = "⚙️网站健康监测 · 异常告警";
-            String monitorResult = "网站不可用";
-            String text = String.format(
-                    """
-                    #### %s
-                    ---
-                    🌐监测网站：  *[%s](%s)*
-                    ⏰监测时间：   *%s*
-                    🛠️监测结果：  🚨*%s*
-                    📢响应状态：  🔴*%d*
-                    
-                    ---
-                    ⚠️ 请立即关注，尽快排查网站服务状态
-                    """,
-                    title, websiteTitle, websiteUrl, currentTime, monitorResult, responseStatus
-            );
-            DingTalkRobotGroupMessage.sendMessage(accessToken, secret, title, text);
+            response = String.valueOf(responseStatus);
         } catch (Exception e) {
             System.out.println("网站健康监测失败。。。");
+            response = e.getMessage();
             e.printStackTrace();
         }
 
+        String title = "⚙️网站健康监测 · 异常告警";
+        String monitorResult = "网站不可用";
+        String text = String.format(
+                """
+                #### %s
+                ---
+                🌐监测网站：  *[%s](%s)*
+                ⏰监测时间：   *%s*
+                🛠️监测结果：  🚨*%s*
+                📢响应状态：  🔴*%s*
+                
+                ---
+                ⚠️ 请立即关注，尽快排查网站服务状态
+                """,
+                title, websiteTitle, websiteUrl, currentTime, monitorResult, response
+        );
+        DingTalkRobotGroupMessage.sendMessage(accessToken, secret, title, text);
     }
 
     /**
@@ -103,6 +106,7 @@ public class TaskService {
     private int websiteCheck() throws Exception {
         // 去除末尾多余的斜杠
         String baseUrl = websiteUrl.endsWith("/") ? websiteUrl.substring(0, websiteUrl.length() - 1) : websiteUrl;
+        System.out.println("baseUrl = " + baseUrl);
 
         HttpClient httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5)).build();
 
