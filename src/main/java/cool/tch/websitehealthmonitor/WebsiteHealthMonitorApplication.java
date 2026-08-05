@@ -11,22 +11,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+import static cool.tch.websitehealthmonitor.constant.Constants.DAILY_HEALTH_CHECK;
+import static cool.tch.websitehealthmonitor.constant.Constants.PERIODIC_HEALTH_CHECK;
+
 @RestController
 @SpringBootApplication
 public class WebsiteHealthMonitorApplication {
 
     @Autowired
     private TaskService taskService;
-
-    /**
-     * 每日存活检查
-     */
-    private static final String DAILY_HEALTH_CHECK = "daily_health_check";
-
-    /**
-     * 周期性健康检查
-     */
-    private static final String PERIODIC_HEALTH_CHECK = "periodic_health_check";
 
     public static void main(String[] args) {
         SpringApplication.run(WebsiteHealthMonitorApplication.class, args);
