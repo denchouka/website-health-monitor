@@ -3,6 +3,7 @@ package cool.tch.websitehealthmonitor.service;
 import cool.tch.websitehealthmonitor.message.DingTalkRobotGroupMessage;
 import cool.tch.websitehealthmonitor.net.HealthCheckService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -48,8 +49,8 @@ public class TaskService {
     /**
      * 每日存活检查
      */
+    @Scheduled(cron = "${cron.daily}")
     public void dailyHealthCheck() {
-
         String text = String.format(
                 DAILY_HEALTH_CHECK_TEXT, DAILY_HEALTH_CHECK_TITLE
         );
@@ -59,6 +60,7 @@ public class TaskService {
     /**
      * 周期性健康检查
      */
+    @Scheduled(cron = "${cron.periodic}")
     public void periodicHealthCheck() {
         String currentTime = LocalDateTime.now().format(FORMATTER);
         String response = healthCheckService.websiteCheck(websiteUrl);

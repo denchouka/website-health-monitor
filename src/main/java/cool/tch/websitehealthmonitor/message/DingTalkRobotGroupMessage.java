@@ -3,22 +3,18 @@ package cool.tch.websitehealthmonitor.message;
 import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiRobotSendRequest;
-import com.dingtalk.api.response.OapiRobotSendResponse;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
 
+import static cool.tch.websitehealthmonitor.constant.Constants.DINGTALK_WEBHOOK_URL;
+
 /**
  * 钉钉群聊机器人
  */
 public class DingTalkRobotGroupMessage {
-
-    /**
-     * webhook地址
-     */
-    private static final String webHookUrl = "https://oapi.dingtalk.com/robot/send";
 
     public static void sendMessage(String accessToken, String secret, String title, String text) {
         try {
@@ -33,7 +29,7 @@ public class DingTalkRobotGroupMessage {
             String sign = URLEncoder.encode(new String(Base64.encodeBase64(signData)),"UTF-8");
 
             //sign字段和timestamp字段必须拼接到请求URL上，否则会出现 310000 的错误信息
-            DingTalkClient client = new DefaultDingTalkClient(webHookUrl + "?sign=" + sign + "&timestamp=" + timestamp);
+            DingTalkClient client = new DefaultDingTalkClient(DINGTALK_WEBHOOK_URL + "?sign=" + sign + "&timestamp=" + timestamp);
             OapiRobotSendRequest req = new OapiRobotSendRequest();
 
             //设置消息类型
@@ -43,7 +39,7 @@ public class DingTalkRobotGroupMessage {
             markdown.setText(text);
             req.setMarkdown(markdown);
 
-            OapiRobotSendResponse rsp = client.execute(req, accessToken);
+            client.execute(req, accessToken);
         } catch (Exception e) {
             System.out.println("钉钉群聊机器人推送消息失败。。。");
             e.printStackTrace();

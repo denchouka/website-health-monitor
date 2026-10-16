@@ -1,6 +1,5 @@
 package cool.tch.websitehealthmonitor.net;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -12,7 +11,6 @@ import java.time.Duration;
 import static cool.tch.websitehealthmonitor.constant.Constants.*;
 
 @Service
-@Slf4j
 public class HealthCheckService {
 
     private final HttpClient httpClient;

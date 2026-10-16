@@ -9,3 +9,6 @@ dingtalk:
   secret: ${SECRET}
   website_url: ${WEBSITE_URL}
   website_title: ${WEBSITE_TITLE}
+cron:
+  daily: "0 0 8 * * ?"
+  periodic: "0 0/3 * * * ?"

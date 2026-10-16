@@ -30,13 +30,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.aliyun.fc.runtime/fc-java-core -->
-        <dependency>
-            <groupId>com.aliyun.fc.runtime</groupId>
-            <artifactId>fc-java-core</artifactId>
-            <version>1.4.1</version>
-        </dependency>
-
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>alibaba-dingtalk-service-sdk</artifactId>

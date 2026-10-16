@@ -3,6 +3,11 @@ package cool.tch.websitehealthmonitor.constant;
 public class Constants {
 
     /**
+     * 钉钉群机器人webhook地址
+     */
+    public static final String DINGTALK_WEBHOOK_URL = "https://oapi.dingtalk.com/robot/send";
+
+    /**
      * http状态码200
      */
     public static final String HTTP_CODE_OK = "200";
@@ -11,11 +16,6 @@ public class Constants {
      * 时间格式
      */
     public static final String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-    /**
-     * 每日存活检查
-     */
-    public static final String DAILY_HEALTH_CHECK = "daily_health_check";
 
     /**
      * 每日存活检查：标题
@@ -32,11 +32,6 @@ public class Constants {
             🕗 早上好！
             网站健康监测服务 正常运行中 ☀️
             """;
-
-    /**
-     * 周期性健康检查
-     */
-    public static final String PERIODIC_HEALTH_CHECK = "periodic_health_check";
 
     /**
      * 周期性健康检查：标题
